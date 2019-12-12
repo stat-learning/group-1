@@ -1,7 +1,7 @@
 ---
 title: "Technical Report"
 author: Nat Rubin, Kyla Hayworth, Naomi Boss
-output: md_document
+output: pdf_document
 editor_options: 
   chunk_output_type: console
   fig_caption: yes
@@ -270,7 +270,6 @@ lm_base <- lm(TimeInQueue_sec ~ Pct.White +
             priority_dummy +
             category_dummy,
           data = calls_dummy)
-summary(lm_base)
 ```
 
 &nbsp;
@@ -289,12 +288,11 @@ lm_transformed <- lm(log_queue ~ Pct.White +
             priority_dummy +
             category_dummy,
           data = calls_dummy)
-summary(lm_transformed)
 ```
 
 &nbsp;
 
-```{r figs2, fig.cap="Residual Plots for Transformed Loinear Regression"}
+```{r figs2, fig.cap="Residual Plots for Transformed Linear Regression"}
 #Checking the residual graphs - these look a lot better
 plot(lm_transformed)
 ```
@@ -312,7 +310,7 @@ models would provide more interpretable information.
 
 &nbsp;
 
-(see r chunks: caret, model results )
+(see r chunks: caret )
 ```{r caret, include=FALSE}
 set.seed(23489)
 train_index <- sample(1:nrow(calls_dummy), 0.9 * nrow(calls_dummy))
@@ -355,12 +353,6 @@ model_results <- data.frame(
  TREEBAG = min(model_list$treebag$results$RMSE),
  GBM = min(model_list$gbm$results$RMSE)
  )
-```
-
-&nbsp;
-
-```{r model results, fig.cap="Results of 10-Fold Cross Validation 6 Models"}
-print(model_results)
 ```
 
 &nbsp;
@@ -761,12 +753,6 @@ model_results <- data.frame(
  TREEBAG = min(model_list$treebag$results$RMSE),
  GBM = min(model_list$gbm$results$RMSE)
  )
-```
-
-&nbsp;
-
-```{r model results view, echo=TRUE, eval=FALSE, fig.cap="Results of 10-Fold Cross Validation 6 Models"}
-print(model_results)
 ```
 
 &nbsp;

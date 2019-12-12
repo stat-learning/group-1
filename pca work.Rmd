@@ -1,0 +1,87 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+## Caret | Training and Test MSe from Principle Components
+Training:  
+    LM    GLMNET  RANGER TREEBAG  GBM  
+    1.19  1.19   1.16    1.16     1.15  
+  
+Test:  
+    LM     GLMNET RANGER  TREEBAG  GBM  
+    1.43   1.43   1.33    1.34     1.33  
+
+
+```{r caret PCA}
+train_preds_PCA <- as.matrix(calls.PCA[,1:3])
+test_preds_PCA <- as.matrix(numericalCalls)
+
+fit_control_PCA <- trainControl(## 10-fold CV
+                           method = "cv",
+                           number = 10,
+                           allowParallel = TRUE)
+
+model_list_PCA <- caretList(logTime ~ Priority + Pct.White + logIncome + Std_pop,
+                        trControl = fit_control_PCA,
+                        data=numericalCalls,
+                        methodList = c("lm", "glmnet", "ranger", 
+                                       "gbm", "treebag"),
+                        tuneList = NULL,
+                        continue_on_fail = FALSE)
+
+best_lm_PCA <- model_list_PCA$lm$finalModel
+
+best_glmnet_PCA <- model_list_PCA$glmnet$finalModel
+
+best_rf_PCA <- model_list_PCA$ranger$finalModel
+
+best_bagged_trees_PCA <- model_list_PCA$treebag$finalModel
+
+best_boosted_forest_PCA <- model_list_PCA$gbm$finalModel
+
+options(digits = 3)
+model_results_PCA <- data.frame(
+ LM_PCA = min(model_list_PCA$lm$results$RMSE),
+ GLMNET_PCA = min(model_list_PCA$glmnet$results$RMSE),
+ RANGER_PCA = min(model_list_PCA$ranger$results$RMSE),
+ TREEBAG_PCA = min(model_list_PCA$treebag$results$RMSE),
+ GBM_PCA = min(model_list_PCA$gbm$results$RMSE)
+ )
+
+print(model_results_PCA)
+```
+
+```{r test MSEs PCA}
+
+lm_yhats_PCA <- predict(model_list_PCA$lm, newdata = numericalCalls)
+best_lm_mse_PCA <- MSE(lm_yhats_PCA, numericalCalls$logTime)
+
+
+glmnet_yhats_PCA <- predict(model_list_PCA$glmnet,
+                        newdata = numericalCalls)
+best_glmnet_mse_PCA <- MSE(glmnet_yhats_PCA, numericalCalls$logTime)
+
+
+rf_yhats_PCA <- predict(model_list_PCA$ranger, newdata = numericalCalls)
+best_rf_mse_PCA <- MSE(rf_yhats_PCA, numericalCalls$logTime)
+
+bagged_yhats_PCA <- predict(model_list_PCA$treebag,newdata = numericalCalls)
+best_bagged_mse_PCA <- MSE(bagged_yhats_PCA, numericalCalls$logTime)
+  
+boosted_yhats_PCA <- predict(model_list_PCA$gbm, newdata = numericalCalls)
+best_boosted_mse_PCA <- MSE(boosted_yhats_PCA, numericalCalls$logTime)
+
+
+options(digits = 3)
+test_MSE_PCA <- data.frame(
+ LM = best_lm_mse_PCA,
+ GLMNET = best_glmnet_mse_PCA,
+ RANGER = best_rf_mse_PCA,
+ TREEBAG = best_bagged_mse_PCA,
+ GBM = best_boosted_mse_PCA
+ )
+
+print(test_MSE_PCA)
+
+summary(best_boosted_forest_PCA)
+```

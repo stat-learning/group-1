@@ -1,0 +1,32 @@
+---
+title: "Group Proposal"
+author: "Nat Rubin, Naomi Boss, Kyla Hayworth"
+date: "11/7/2019"
+output: pdf_document
+---
+
+## Project 1 - PPB Response Times
+
+Question: Can we predict response times to Portland Police calls based on location,
+population density, neighborhood race and income characteristics, and call type?
+
+This is a regression and prediction problem. We would use the publicy published
+data from the PPB as well as census data. https://www.portlandoregon.gov/police/76454
+
+## Project 2 - Oregon Campaign Donations
+
+Question: Can we predict candidate incumbency, longevity in office, and partisanship
+based on amount donated to their campaigns?
+
+This is a classification and regression problem with prediction. We would use data
+from the OreStar campaign finance website. https://secure.sos.state.or.us
+
+## Project 3 - The Formula 1 Championship
+
+Question: Can we predict a driver or team's likelihood of winning the driver's
+or constructor's championships based on the number of points they have earlier in
+the season?
+
+This would be a regression and prediction problem. We would use the Ergast
+Developer API, a database of Formula 1 statistics going back to the beginning
+of the championship in 1950. http://ergast.com/mrd/

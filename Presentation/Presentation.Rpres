@@ -1,0 +1,115 @@
+Predicting Wait Times of Police Response
+========================================================
+author: Nat Rubin, Kyla Hayworth, & Naomi Boss
+date: 04 December 2019
+autosize: true
+
+
+Initial Inquiries
+========================================================
+
+We want to know: can we predict wait times of police 
+response based on factors such as race, wealth, and
+location density? What can we say about the
+efficacy and equitability of PPB?
+
+Portland, By Poverty Levels
+========================================================
+
+```{r echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/6h-City_stateof_poverty_tracts-v9.jpg")
+#source of image: https://www.portlandonline.com/portlandplan/index.cfm?c=52257&a=288632
+```
+
+Portland, by Income
+========================================================
+
+```{r echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/6e-City_stateof_HHincome-v9.jpg")
+#source of image: https://www.portlandonline.com/portlandplan/index.cfm?c=52257&a=288629
+```
+
+
+Portland, by Race
+========================================================
+```{r echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Pct white 2010.png")
+#source: https://www.oregonlive.com/pacific-northwest-news/2011/04/in_portlands_heart_diversity_dwindles.html
+```
+
+Breakdown of Data
+========================================================
+
+```{r}
+
+```
+
+Methods
+========================================================
+
+
+Challenges
+========================================================
+
+
+
+Frequency of Time Spent in Queue
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/QueueTimeFrequency.png")
+```
+
+Time Spent in Queue,  Race and Priority
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Race_Priority_Queue.png")
+```
+
+Time Spent in Queue, Population Density and Priority
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Pred_Pop_Density.png")
+```
+
+Time Spent in Queue, Mean Income
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Income_QueueTime_Priority.png")
+```
+
+PCA
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/ScreePlot.png")
+```
+
+Pruned Regression Tree
+========================================================
+
+```{r  echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Pruned Regression Tree.png")
+```
+
+Residuals Vs. Fitted
+========================================================
+
+```{r echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Residuals vs Fitted.png")
+```
+
+Residuals Vs. Leverage
+========================================================
+
+```{r echo=FALSE, out.width="70%", fig.align = "center"}
+knitr::include_graphics("images/Residuals vs Leverage.png")
+```
+
+Conclusion
+========================================================
+
+

@@ -16,7 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ##Abstract  
-<<<<<<< HEAD
 The aim of this research project is to predict the amount of time spent in a 911 dispatcher's queue before emergency services were deployed, based on data published by the Portland Police Bureau. We combined Census data with the police report data in order to have a more holistic look at the population accessing emergency services. Our early results show that the two strongest predictors outside of priority of call and call type (both set by the dispatcher), were mean income and race. The queue time was lower for those living in a neighborhood with a higher mean income. To predict, we used a 10-fold cross validation on 6 models: multiple linear regression, ridge regression, lasso, bagged trees, random forest, and boosted forest models. For further research, we recommended a more robust data set, inclusion of spatial and temporal variables, and comparing difference between years.
 
 &nbsp;
@@ -46,25 +45,6 @@ Population and economic data came from Portland Monthly:   (https://www.pdxmonth
 
 &nbsp;
 
-=======
-  
-##Introduction  
-The Portland Police Bureau (PPB) serves the greater Portland, Oregon metropolitan area. Within Portland, there are 95+ neighborhoods that differ from each other greatly in terms of income, race, and percentage of population below the poverty line. We predicted that income and race would have effects on the performance of the PPB, which we assessed through dispatch time. We looked to see if we could predict response time of the PPB using income and race of the neighborhoods, as well as variables provided by the PPB that ranked the priority of the call and classified the reason for calling, such as crime or traffic complaint.  
-
-
-##The Data  
-Our data is a combination of two different datasets. Census data from 2010 was taken from the City of Portland website (https://www.portlandoregon.gov/civic/56897) and data about police response time from 2012 was taken from the Portland Police Bureau (https://www.portlandoregon.gov/police/76454.). Rather than using total response time, we are using the time spent in the queue, that is, the amount of time a caller waited in the police dispatch queue before an officer was dispatched to them. The total response time includes travel time once the officer was dispatched. As there is no record of how far the officer had to travel, there was no way to standardize the total response time, so we used the time spent in the queue as a more standardized response time.  
-  
-The unit of observation in this combined dataset is a call to the Portland Police Bureau (PPB). The number of observations is 194,044. To predict the time in queue of the PPB we are looking at priority of the crime as rated by the PPB, racial makeup of the neighborhood (in percentage of white population), population density, and average income in the neighborhood.  
-  
-Location data is majority of data that is missing in observations with missing data. This is addressed by PPB on the website. If "the incident occurred outside of the boundaries of the Portland neighborhoods or at a location that could not be assigned to a specific address in the system (e.g., Portland, near Washington Park, on the streetcar, etc.)" (PPB) there will be no data for location.   
-  
-Population and economic data came from Portland Monthly:   (https://www.pdxmonthly.com/articles/2016/4/1/real-estate-2016-the-city)  
-  
-  
-##Exploratory Data Analysis  
-  
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r Load Libraries, include=FALSE}
 if(!require(ggfortify)){
     install.packages("ggforitfy")
@@ -113,27 +93,18 @@ if(!require(ggplot2)){
 library(ggplot2)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ### Time in Queue for PPB calls  
 
-=======
-### Time in Queue for PPB calls  
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 There were categorical variables in the data that coded the priority of the call 
 and the category of the call. Priority was low, medium, or high, so we recoded the 
 variable to be 0, 0.5, and 1, respectively. Category was recoded to be 1 for the 
 "crime" category and 0 for all other categories, including Traffic, Disorder, and 
 Assist. We assumed that crime calls may be given priority over other kinds of calls.
-<<<<<<< HEAD
 &nbsp;
 
 (see r chunks: Data Wrangling)
-=======
-
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r Data Wrangling, include=FALSE}
 
 calls <- read.csv("https://raw.githubusercontent.com/stat-learning/group-1/master/Data/calls.csv")
@@ -157,7 +128,6 @@ calls_dummy <- mutate(calls, priority_dummy)
 calls_dummy <- mutate(calls_dummy, category_dummy)
 
 ```
-<<<<<<< HEAD
 
 &nbsp;  
 
@@ -165,11 +135,6 @@ As a preliminary visualization of all of the data, a histogram was generated for
 
 &nbsp;
 (see r chunks: Call Frequency)
-=======
-  
-As a preliminary visualization of all of the data, a histogram was generated for time spent in the queue. This histogram is heavily skewed right, with a majority of the calls spending less time in the queue than the mean.  
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r Call Frequency, echo=TRUE, fig.caption="Histogram Plot of Time Spent in Queue"}
 
 ggplot(data=calls, aes(x=TimeInQueue_sec)) + 
@@ -182,7 +147,6 @@ ggplot(data=calls, aes(x=TimeInQueue_sec)) +
 summary(calls$TimeInQueue_sec)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 Plotting bivariate correlations was our first step in exploring the data. For each, the entire data set was plotted without priority first and then also plotted with the data faceted by priority. Faceting by priority allowed us to see how important priority was to response time as well as see that generally, those with lower income spent longer times in the queue when controlling for the priority of the call. 
@@ -191,24 +155,15 @@ Plotting bivariate correlations was our first step in exploring the data. For ea
 
 (see r chunks: Bivariate Predictor Race, Bivariate Predictor Race and Priority, Predictor Mean Income, Predictor Mean Income and Priority, transforming variables)
 ```{r Bivariate Predictor Race, fig.cap="Frequency plot of time spent in queue by percentage of white population"}
-=======
-Plotting bivariate correlations was our first step in exploring the data. For each, the entire dataset was plotted without priorty first and then also plotted with the data faceted by priority. Faceting by priorty allowed us to see how important priority was to response time as well as see that generally, those with lower income spent longer times in the queue when controlling for the priority of the call. 
-
-```{R Bivariate Predictor Race, fig.cap="Frequency Plot of Time Spent in Queue Based on Percent of White Residents"}
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ggplot(data = calls, mapping = aes(x = Pct.White,
                                    y = TimeInQueue_sec)) +
 geom_point(alpha = 0.1)+
 labs(x = "Percentage of White Residents", y = "Time Spent in Queue")
-<<<<<<< HEAD
 ```
 
 &nbsp;
 
 ```{r Bivariate Predictor Race and Priority, fig.cap="Frequency plot of time spent in queue by percentage of white population faceted by priority"}
-=======
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 #same as above but faceted by priority
 ggplot(data = calls, mapping = aes(x = Pct.White,
                                    y = TimeInQueue_sec)) +
@@ -217,27 +172,18 @@ facet_wrap(~Priority, ncol = 3) +
 labs(x = "Percentage of White Residents", y = "Time Spent in Queue")
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ```{r Predictor Mean Income, fig.cap="Frequency Plot of Time Spent in Queue Based on Mean Income"}
-=======
-
-```{R Predictor Mean Income, fig.cap="Frequency Plot of Time Spent in Queue Based on Mean Income"}
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ggplot(data = calls, mapping = aes(x = Income.Std,
                                    y = TimeInQueue_sec)) +
 geom_point(alpha = 0.1)+
 labs(x = "Mean Income", y = "Time Spent in Queue")
-<<<<<<< HEAD
 ```
 
 &nbsp;
 
 ```{r Predictor Mean Income and Priority, fig.cap="Frequency plot of time spent in queue based on mean income faceted by priority"}
-=======
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 #same as above but faceted by priority
 ggplot(data = calls, mapping = aes(x = Income.Std,
                                    y = TimeInQueue_sec)) +
@@ -247,12 +193,7 @@ labs(x = "Mean Income", y = "Time Spent in Queue")
 
 ```
 
-<<<<<<< HEAD
 &nbsp;
-=======
-We ran principal component analysis in an attempt for dimension reduction. 
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 
 ```{r transforming variables}
 income_positive <- (calls_dummy$Income.Std + 1.353877)
@@ -270,7 +211,6 @@ calls_dummy <- calls_dummy[!is.infinite(log_queue),]
 
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ## Principal Component Analysis
@@ -303,48 +243,25 @@ ggtitle(label = "Principal Component Analysis for 911 Queue Time")
 screeplot(calls.PCA, type="lines")
 
 
-=======
-
-```{r PCA, fig.cap="Principal Component Analysis: A look at the scree plot and bearings", message=TRUE, warning=TRUE }
-# creating PCA model
-numCalls<-calls_dummy[, -c(2:5)]
-calls.PCA<-prcomp(numCalls)
-summary(calls.PCA)
-str(calls.PCA)
-
-#plotting PCA
-autoplot(calls.PCA, alpha=0.1, loadings=TRUE, loadings.label=TRUE)
-screeplot(calls.PCA, type="lines")
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 #based on the scree plot, we should use 3 PC's. 
 PC1<-calls.PCA$x[,1]
 PC2<-calls.PCA$x[,2]
 PC3<-calls.PCA$x[,3]
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ##Modeling
 We tried a basic non-cross validated linear model just to see how the skew of the 
-=======
-
-##Modeling
-We tried a basic non-crossvalidated linear model just to see how the skew of the 
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 variables would impact the diagnostic graphs. Upon seeing the non-random residuals 
 and highly non-linear QQ plot, we applied log transformations to some of the variables. 
 The linear model using the transformed variables still had problems in the diagnostic 
 graphs, but they were improved from the non-transformed model. When we built a 
 cross-validated linear model, we decided to use these transformed variables.
 
-<<<<<<< HEAD
 &nbsp;
 
 (see r chunk: linear regression, Plot of Residuals, transformed model, figs2 )
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r linear regression}
 #without tranformed variables
 lm_base <- lm(TimeInQueue_sec ~ Pct.White +
@@ -356,21 +273,15 @@ lm_base <- lm(TimeInQueue_sec ~ Pct.White +
 summary(lm_base)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r Plot of Residuals, fig.cap="Residual Plots for Non-Transformed Loinear Regression"}
 #Checking the residual graphs
 plot(lm_base)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r transformed model}
 # with transformed variables
 lm_transformed <- lm(log_queue ~ Pct.White +
@@ -381,20 +292,14 @@ lm_transformed <- lm(log_queue ~ Pct.White +
 summary(lm_transformed)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r figs2, fig.cap="Residual Plots for Transformed Loinear Regression"}
 #Checking the residual graphs - these look a lot better
 plot(lm_transformed)
 ```
 
-<<<<<<< HEAD
 &nbsp;
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 
 We tested six different models: three regression-based models and three algorithmic 
 models. Using 10-fold cross-validation, we fit multiple linear regression, ridge 
@@ -405,14 +310,10 @@ transformation, we anticipated the algorithmic approach to be more appropriate.
 However, since we wanted to engage in inference regarding time in the queue, linear-based 
 models would provide more interpretable information.
 
-<<<<<<< HEAD
 &nbsp;
 
 (see r chunks: caret, model results )
 ```{r caret, include=FALSE, cache=TRUE}
-=======
-```{r caret, include=FALSE}
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 set.seed(23489)
 train_index <- sample(1:nrow(calls_dummy), 0.9 * nrow(calls_dummy))
 calls_train <- calls_dummy[train_index, ]
@@ -456,7 +357,6 @@ model_results <- data.frame(
  )
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ```{r model results, fig.cap="Results of 10-Fold Cross Validation 6 Models"}
@@ -472,16 +372,6 @@ model of each type is shown below.
 &nbsp;
 
 (see r chunks: test MSEs,  test MSE summary, variable importance )
-=======
-```{r, fig.cap="Results of 10-Fold Cross Validation 6 Models"}
-print(model_results)
-```
-
-Our dataset was large enough that we could tune the models through 10-fold CV on 
-training set and then test the models into a test set. The test MSEs for the best 
-model of each type is shown below.
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r test MSEs}
 
 lm_yhats <- predict(model_list$lm, newdata = calls_test)
@@ -512,7 +402,6 @@ test_MSE <- data.frame(
  GBM = best_boosted_mse
  )
 ```
-<<<<<<< HEAD
 
 &nbsp; 
 
@@ -534,33 +423,15 @@ summary(best_boosted_forest)
 
 &nbsp;
 
-=======
-  
-```{r, fig.cap="Test Mean Squared Error of the Test Set"}
-print(test_MSE)
-```
-  
-The boosted random forest model has the lowest test MSE. We used variable importance
-to infer how much each variable was impacting the timein the queue. Unsurprisingly, 
-priority and category were overwhelmingly the most importance.  
-  
-```{r variable importance, fig.cap="Summary of the Model with Least Mean Squared Error"}
-summary(best_boosted_forest)
-```
-  
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 We tried a boosted random forest model without priority and then without priority 
 and category to compare the race and income variables. Interestingly, when we 
 removed priority, income switched places with race as the more important of the 
 two variables, indicating that priority may have been capturing some of the importance 
 of income in the original model.
-<<<<<<< HEAD
 
 &nbsp;
 
 (see r chunks: without priority, summary of no priority, without priority, summary of model without priority)
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r without priority}
 
 no_priority <- caretList(log_queue ~ Pct.White + log_income + category_dummy,
@@ -571,7 +442,6 @@ no_priority <- caretList(log_queue ~ Pct.White + log_income + category_dummy,
                         continue_on_fail = FALSE)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
 ```{r summary of no priority, fig.cap="Summary of Boosted Random Forest Model without including priority as a predictor."}
@@ -580,12 +450,6 @@ summary(no_priority$gbm$finalModel)
 
 &nbsp;  
 
-=======
-```{r fig.cap="Summary of Boosted Random Forest Model without including priority as a predictor."}
-summary(no_priority$gbm$finalModel)
-```
-  
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r without priority or call type}
 no_p_or_c <- caretList(log_queue ~ Pct.White + log_income,
                         trControl = fit_control,
@@ -594,63 +458,41 @@ no_p_or_c <- caretList(log_queue ~ Pct.White + log_income,
                         tuneList = NULL,
                         continue_on_fail = FALSE)
 ```
-<<<<<<< HEAD
 
 &nbsp;  
 
-=======
-  
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r Summary of Model Without Priority, fig.cap=" Summary of Boosted Random Forest Model without including priority and call type"}
 summary(no_p_or_c$gbm$finalModel)
 ```
 
-<<<<<<< HEAD
 &nbsp;
 
-=======
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 Looking at our best linear regression and penalized regression models, we get more 
 insights for inference. In the non-penalized model, all of the variables are 
 significant at the 0.001 significance level. However, the coefficient for priority 
 is much, much higher than the other coefficients. The penalized regression reduced 
 the coefficients of all of the variables but did not make any of them 
 zero, so we cannot fully discount any of the four variables.
-<<<<<<< HEAD
 &nbsp;
-=======
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ```{r linear summaries, fig.cap="Summary of the best linear regression and penalized regression models"}
 summary(best_lm)
 
 coef(best_glmnet, 0.00254)
 ```
-<<<<<<< HEAD
 &nbsp;
 
 ##Discussion
 &nbsp;
-=======
-
-##Discussion
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 Unfortunately we were limited by the amount of information contained in the data. 
 More descriptive information, like the day and time of the call, would have been 
 very helpful in determining the volume of calls at any given time, which likely has 
 a strong relationship to time in the queue.
 
-<<<<<<< HEAD
 \pagebreak
-=======
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820
 ##References
 2010 Census Data for Portland Neighborhoods | The City of Portland, Oregon. (n.d.). Retrieved December 11, 2019, from The City Of Portland Oregon website: https://www.portlandoregon.gov/civic/56897
 DeNies, R. (2016, April 1). Portland Neighborhoods by the Numbers 2016: The City. Retrieved December 11, 2019, from Portland Monthly website: https://www.pdxmonthly.com/articles/2016/4/1/real-estate-2016-the-city
 Dispatched Calls | The City of Portland, Oregon. (n.d.). Retrieved December 11, 2019, from The City Of Portland Oregon website: https://www.portlandoregon.gov/police/76454
-<<<<<<< HEAD
 &nbsp;
 
 
@@ -1016,10 +858,3 @@ coef(best_glmnet, 0.00254)
 ```
 
 &nbsp;
-=======
-
-
-#R Code
-
-
->>>>>>> 14811f58deb62d7538951cf20913810621887820

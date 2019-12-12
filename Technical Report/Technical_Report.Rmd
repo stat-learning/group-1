@@ -1,7 +1,7 @@
 ---
 title: "Technical Report"
 author: Nat Rubin, Kyla Hayworth, Naomi Boss
-output: pdf_document
+output: md_document
 editor_options: 
   chunk_output_type: console
   fig_caption: yes
@@ -105,6 +105,7 @@ Assist. We assumed that crime calls may be given priority over other kinds of ca
 &nbsp;
 
 (see r chunks: Data Wrangling)
+
 ```{r Data Wrangling, include=FALSE}
 
 calls <- read.csv("https://raw.githubusercontent.com/stat-learning/group-1/master/Data/calls.csv")
@@ -135,6 +136,7 @@ As a preliminary visualization of all of the data, a histogram was generated for
 
 &nbsp;
 (see r chunks: Call Frequency)
+
 ```{r Call Frequency, echo=TRUE, fig.caption="Histogram Plot of Time Spent in Queue"}
 
 ggplot(data=calls, aes(x=TimeInQueue_sec)) + 
@@ -154,6 +156,7 @@ Plotting bivariate correlations was our first step in exploring the data. For ea
 &nbsp;
 
 (see r chunks: Bivariate Predictor Race, Bivariate Predictor Race and Priority, Predictor Mean Income, Predictor Mean Income and Priority, transforming variables)
+
 ```{r Bivariate Predictor Race, fig.cap="Frequency plot of time spent in queue by percentage of white population"}
 ggplot(data = calls, mapping = aes(x = Pct.White,
                                    y = TimeInQueue_sec)) +
@@ -198,10 +201,8 @@ labs(x = "Mean Income", y = "Time Spent in Queue")
 ```{r transforming variables}
 income_positive <- (calls_dummy$Income.Std + 1.353877)
 log_income <- log(income_positive)
-hist(log_income)
 
 log_queue <- log(calls_dummy$TimeInQueue_sec)
-hist(log_queue)
 
 calls_dummy <- add_column(calls_dummy, log_income, .after = 9)
 calls_dummy <- add_column(calls_dummy, log_queue, .after = 10)
@@ -219,6 +220,7 @@ We ran principal component analysis in an attempt of dimension reduction. Our st
 &nbsp;
 
 (see r chunks: PCA model building, Plotting PC1 and PC2, Scree plot)
+
 ```{r PCA model building }
 # creating PCA model
 numCalls<-calls_dummy[, -c(2:5)]
@@ -262,6 +264,7 @@ cross-validated linear model, we decided to use these transformed variables.
 &nbsp;
 
 (see r chunk: linear regression, Plot of Residuals, transformed model, figs2 )
+
 ```{r linear regression}
 #without tranformed variables
 lm_base <- lm(TimeInQueue_sec ~ Pct.White +
@@ -311,6 +314,7 @@ models would provide more interpretable information.
 &nbsp;
 
 (see r chunks: caret )
+
 ```{r caret, include=FALSE}
 set.seed(23489)
 train_index <- sample(1:nrow(calls_dummy), 0.9 * nrow(calls_dummy))
@@ -364,6 +368,7 @@ model of each type is shown below.
 &nbsp;
 
 (see r chunks: test MSEs,  test MSE summary, variable importance )
+
 ```{r test MSEs}
 
 lm_yhats <- predict(model_list$lm, newdata = calls_test)
@@ -424,7 +429,8 @@ of income in the original model.
 &nbsp;
 
 (see r chunks: without priority, summary of no priority, without priority, summary of model without priority)
-```{r without priority}
+
+```{r without priority, include=FALSE}
 
 no_priority <- caretList(log_queue ~ Pct.White + log_income + category_dummy,
                         trControl = fit_control,
@@ -442,7 +448,7 @@ summary(no_priority$gbm$finalModel)
 
 &nbsp;  
 
-```{r without priority or call type}
+```{r without priority or call type, include=FALSE}
 no_p_or_c <- caretList(log_queue ~ Pct.White + log_income,
                         trControl = fit_control,
                         data=calls_train,
